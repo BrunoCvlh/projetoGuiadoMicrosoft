@@ -1,4 +1,6 @@
 ﻿// initialize variables - graded assignments
+using System.Text;
+
 int examAssignments = 5;
 
 int[] sophiaScores = new int[] { 90, 86, 87, 98, 100, 94, 90 };
@@ -14,7 +16,7 @@ int[] studentScores = new int[10];
 string currentStudentLetterGrade = "";
 
 // Write the Report Header to the console
-Console.WriteLine("Student\t\tGrade\n");
+Console.WriteLine("Student\t\tGrade\t\tGrade(Detail)");
 
 foreach (string name in studentNames)
 {
@@ -41,22 +43,34 @@ foreach (string name in studentNames)
     // initialize/reset a counter for the number of assignment 
     int gradedAssignments = 0;
 
+    // implemented to agreggate the sum of only normal scores (ativity)
+    decimal sumOnlyNormalScores = 0;
+    decimal sumOnlyNormalGrade = 0;
+    decimal sumOnlyExtraCreditScores = 0;
+    decimal sumOnlyExtraCreditGrade = 0;
+
     // loop through the scores array and complete calculations for currentStudent
     foreach (int score in studentScores)
     {
-        // increment the assignment counter
         gradedAssignments += 1;
 
         if (gradedAssignments <= examAssignments)
-            // add the exam score to the sum
+        {
             sumAssignmentScores += score;
-
+            sumOnlyNormalScores += score;
+        }
         else
-            // add the extra credit points to the sum - bonus points equal to 10% of an exam score
+        {
             sumAssignmentScores += score / 10;
+            sumOnlyNormalScores += 0;
+            sumOnlyExtraCreditScores += score/10;
+        }
     }
 
+
     currentStudentGrade = (decimal)(sumAssignmentScores) / examAssignments;
+    sumOnlyNormalGrade = sumOnlyNormalScores / 5;
+    sumOnlyExtraCreditGrade = sumOnlyExtraCreditScores / gradedAssignments;
 
     if (currentStudentGrade >= 97)
         currentStudentLetterGrade = "A+";
@@ -98,7 +112,7 @@ foreach (string name in studentNames)
         currentStudentLetterGrade = "F";
 
     //Console.WriteLine("Student\t\tGrade\tLetter Grade\n");
-    Console.WriteLine($"{currentStudent}\t\t{currentStudentGrade}\t{currentStudentLetterGrade}");
+    Console.WriteLine($"{currentStudent}\t\t{currentStudentGrade}\t{currentStudentLetterGrade}\t{sumOnlyNormalGrade} ( + {sumOnlyExtraCreditGrade:F2})");
 }
 
 // required for running in VS Code (keeps the Output windows open to view results)
